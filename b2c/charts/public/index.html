@@ -1,9 +1,159 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>charts</title>
+  <title>Charts</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="index.css">
 </head>
-<body>
-	<script src="client.js"></script>
+
+<body data-ng-app="app">
+<div class="commonWrapper">
+
+  <header class="header">
+
+    <h1 class="header__title">
+      This is interview-task made by
+      Dmitriy Barabanov.
+    </h1>
+    <!-- /.header__title -->
+
+    <ul class="header__info">
+
+      <li class="header__info__item">
+        <a href="http://www.work.ua/resumes/1017352/"
+           class="header__info__link"
+           target="_blank">
+          Link to resume
+        </a>
+      </li>
+      <!-- /.header__info__item -->
+
+      <li class="header__info__item">
+        <a
+          href="https://github.com/HexagonTech/interview-tasks/tree/master/b2c/charts"
+          class="header__info__link"
+          target="_blank">
+          Link to interview-task
+        </a>
+      </li>
+      <!-- /.header__info__item -->
+
+    </ul>
+    <!-- /.header__info -->
+
+  </header>
+  <!-- /.header -->
+
+  <main class="main" data-ng-controller="globalController">
+
+    <h3 class="main__title">
+      Diagrams from Server (NodeJs | localhost:3000)
+      <br>
+      <p class="errorStatus" data-ng-cloak>
+        <i>{{client.notice}}</i>
+      </p>
+    </h3>
+    <hr>
+
+    <div class="main__controlAll mControlAll">
+
+      <p class="mControlAll__block">
+        <label for="numberOfGraphs" class="mControlAll__choiceLabel">
+          Choose displaying graphs (comma as the separator)
+        </label>
+        <input type="text"
+               class="mControlAll__choiceInput"
+               id="numberOfGraphs" placeholder="1,2,3"
+               data-ng-model="client.numbersOfGraphs">
+      </p>
+      <!-- /.mControlAll__block -->
+
+      <p class="mControlAll__block">
+        <button class="mControlAll__button mControlAll__button--start"
+                data-ng-click="client.startTimer()">
+          Start reading data
+        </button>
+        <!-- /.mControlAll__button -->
+        <button class="mControlAll__button mControlAll__button--stop"
+                data-ng-click="client.stopTimer()">
+          Stop reading data
+        </button>
+        <!-- /.mControlAll__button -->
+      </p>
+      <!-- /.mControlAll__block -->
+
+    </div>
+    <!-- /.main__controlAll -->
+
+    <section class="main__content mContent">
+
+      <div class="mContent__block__top">
+        <p class="mContent__block__top__part mContBlTopPart">
+          <label class="mContBlTopPart__label">
+            Change the line color #
+            <input type="text" class="mContBlTopPart__input" value="000000"
+                   data-ng-model="client.color">
+          </label>
+        </p>
+        <!-- /.mContent__block__top__part mContBlTopPart -->
+        <p class="mContent__block__top__part mContBlTopPart">
+          <label class="mContBlTopPart__label">
+            Change the line thickness
+            <select name="thickness"
+                    class="mContBlTopPart__select"
+                    data-ng-model="client.thickness"
+                    data-ng-init="client.thickness = '1'">
+              <option value="1" class="mContBlTopPart__select__option">
+                1
+              </option>
+              <option value="3" class="mContBlTopPart__select__option">
+                3
+              </option>
+              <option value="5"
+                      class="mContBlTopPart__select__option">
+                5
+              </option>
+            </select>
+            <!-- /#.mContBlTopPart__select -->
+          </label>
+          <!-- /.mContBlTopPart__label -->
+        </p>
+        <!-- /.mContent__block__top__part mContBlTopPart -->
+      </div>
+      <!-- /.mContent__block__top -->
+
+      <div class="mContent__block"
+           data-ng-repeat="blockPoints in client.points
+           | choosePoints:client.numbersOfGraphs
+           | orderBy:$index" data-ng-cloak>
+
+        <div class="mContent__block__wrapCanvas">
+          <canvas class="mContent__block__canvas"
+                  id="{{'canvas'+blockPoints.nameOfUrl}}">
+            {{client.toDoGraph(blockPoints.nameOfUrl, blockPoints.data)}}
+          </canvas>
+        </div>
+        <!-- /.mContent__block__wrapCanvas -->
+
+        <div class="mContent__block__number">
+          {{blockPoints.nameOfUrl}}
+        </div>
+        <!-- /.mContent__block__number -->
+
+      </div>
+      <!-- /.mContent__block -->
+
+    </section>
+    <!-- /.main__content -->
+
+  </main>
+  <!-- /.main -->
+
+</div>
+<!-- /.commonWrapper -->
+
+<script src="angular.min.js"></script>
+<script src="client.js"></script>
 </body>
 </html>
+
